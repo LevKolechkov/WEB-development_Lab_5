@@ -1,0 +1,138 @@
+@mixin yellow-bordered {
+  background-color: #1b1a17;
+  border: 2px solid #ff8303;
+  border-radius: 8px;
+  color: #f0e3ca;
+
+  @media (hover: hover) {
+    &:hover {
+      color: #393939;
+      border: 2px solid #a35709;
+      background-color: #1f1e1b;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      color: #393939;
+      border: 2px solid #a35709;
+      background-color: #1f1e1b;
+    }
+  }
+}
+
+ul {
+  width: 80%;
+
+  list-style-type: none;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  gap: 25px;
+
+  .no-tasks {
+    border-top: 3px solid #ff8303;
+    border-bottom: 3px solid #ff8303;
+    border-left: none;
+    border-right: none;
+    color: #ffffff;
+    width: 10%;
+    padding: 1% 0% 1% 0%;
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+
+    h1 {
+      font-family: "Inter", sans-serif;
+      font-weight: 100;
+    }
+  }
+
+  .task {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    width: 98.5%;
+    align-items: center;
+
+    &:hover {
+      color: #f0e3ca;
+      border-color: #ff8303;
+    }
+
+    .container {
+      background-color: #1b1a17;
+      border: 2px solid #ff8303;
+      border-radius: 8px;
+      color: #f0e3ca;
+      display: flex;
+      width: 100%;
+      padding: 1% 1% 1% 1%;
+      justify-content: space-between;
+      color: #f0e3ca;
+      font-family: "Roboto", sans-serif;
+      cursor: pointer;
+
+      &__text {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        position: relative;
+
+        .dragable {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          position: absolute;
+          cursor: grab;
+        }
+
+        @media (max-width: 450px) {
+          width: 70%;
+        }
+
+        h1 {
+          font-weight: 500;
+          overflow-wrap: break-word;
+        }
+        h2 {
+          font-weight: 400;
+          overflow-wrap: break-word;
+        }
+      }
+    }
+
+    button {
+      width: 50px;
+      height: 45px;
+      @include yellow-bordered;
+      margin: 1% 4% 1% 1%;
+      height: 45px;
+      width: 50px;
+      font-size: 25px;
+      color: #ff8303;
+      padding-bottom: 4px;
+    }
+
+    .menu {
+      display: flex;
+      margin-top: 1%;
+      align-self: flex-end;
+      display: none;
+
+      &.visible {
+        display: flex;
+      }
+
+      button {
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.no-tasks {
+  border-top: 3px solid #ff8303;
+  border-bottom: 3px solid #ff8303;
+  border-left: none;
+  border-right: none;
+  color: #ffffff;
+  width: 10%;
+  padding: 1% 0% 1% 0%;
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+
+  h1 {
+    font-family: "Inter", sans-serif;
+    font-weight: 100;
+  }
+}
