@@ -6,17 +6,31 @@ import {
 import { DndContext, closestCorners } from "@dnd-kit/core";
 import Todo from "../Todo/Todo";
 import NoTasks from "../NoTasks/NoTasks";
+import NoFavoriteTasks from "../NoTasks/NoFavoriteTasks";
+import Breaker from "../Breaker/Breaker";
 import {
   selectTasks,
   deleteTask,
   toggleTask,
   editTask,
   moveTask,
+  toggleFavorite,
+  unToggleFavorite,
 } from "../../redux/slices/tasksSlice";
+import { Task } from "../interfaces/Task";
+import { useState, useEffect } from "react";
 
 function TodoList() {
   const tasks = useSelector(selectTasks);
   const dispatch = useDispatch();
+
+  const [favoriteTasks, setFavoriteTasks] = useState<Task[]>([]);
+  const [notFavoriteTasks, setNotFavoriteTasks] = useState<Task[]>([]);
+
+  useEffect(() => {
+    setFavoriteTasks(tasks.filter((task) => task.isFavorite));
+    setNotFavoriteTasks(tasks.filter((task) => !task.isFavorite));
+  }, [tasks]);
 
   const handleDeleteTask = (id: string) => {
     dispatch(deleteTask(id));
@@ -24,6 +38,16 @@ function TodoList() {
 
   const toggleTaskHandler = (id: string) => {
     dispatch(toggleTask(id));
+  };
+
+  const toggleFavoriteHandler = (id: string) => {
+    if (favoriteTasks.length >= 3) {
+      alert("Нельзя закрепить более 3 задач.");
+    } else dispatch(toggleFavorite(id));
+  };
+
+  const unToggleFavoriteHandler = (id: string) => {
+    dispatch(unToggleFavorite(id));
   };
 
   const updateTaskHandler = (id: string, changedTask: any) => {
@@ -35,25 +59,54 @@ function TodoList() {
   };
 
   return (
-    <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCorners}>
-      <ul id="taskList">
-        {tasks.length === 0 ? (
-          <NoTasks />
+    <>
+      <ul className="tasksList">
+        {favoriteTasks.length === 0 ? (
+          <NoFavoriteTasks />
         ) : (
-          <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
-            {tasks.map((task) => (
+          <>
+            {favoriteTasks.map((task) => (
               <Todo
                 key={task.id}
                 task={task}
+                isDragable={false}
                 deleteTask={handleDeleteTask}
                 toggleTask={toggleTaskHandler}
+                toggleFavorite={unToggleFavoriteHandler}
                 updateTask={updateTaskHandler}
               />
             ))}
-          </SortableContext>
+            <Breaker></Breaker>
+          </>
         )}
       </ul>
-    </DndContext>
+      <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCorners}>
+        <ul className="tasksList">
+          {tasks.length === 0 ? (
+            <NoTasks />
+          ) : (
+            <>
+              <SortableContext
+                items={tasks}
+                strategy={verticalListSortingStrategy}
+              >
+                {notFavoriteTasks.map((task) => (
+                  <Todo
+                    key={task.id}
+                    task={task}
+                    isDragable={true}
+                    deleteTask={handleDeleteTask}
+                    toggleTask={toggleTaskHandler}
+                    toggleFavorite={toggleFavoriteHandler}
+                    updateTask={updateTaskHandler}
+                  />
+                ))}
+              </SortableContext>
+            </>
+          )}
+        </ul>
+      </DndContext>
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BsBookmarkStarFill, BsBookmarkStar } from "react-icons/bs";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ConfirmDelete from "../Confirm/ConfirmDelete";
@@ -7,19 +8,15 @@ import Share from "../Share/Share";
 import shareIcon from "../../assets/images/menu/share.svg";
 import infoIcon from "../../assets/images/menu/info.svg";
 import editIcon from "../../assets/images/menu/edit.svg";
+import { Task } from "../interfaces/Task";
 import "../Todos/TodoList.scss";
-
-interface Task {
-  id: string;
-  title: string;
-  about: string;
-  isMenuOpened: boolean;
-}
 
 interface TodoProps {
   task: Task;
+  isDragable: boolean;
   deleteTask: (id: string) => void;
   toggleTask: (id: string) => void;
+  toggleFavorite: (id: string) => void;
   updateTask: (id: string, updatedTask: Partial<Task>) => void;
 }
 
@@ -28,6 +25,7 @@ const Todo: React.FC<TodoProps> = ({
   deleteTask,
   toggleTask,
   updateTask,
+  toggleFavorite,
 }) => {
   const taskId = task.id;
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -81,7 +79,7 @@ const Todo: React.FC<TodoProps> = ({
         <div className="container" onClick={() => toggleTask(task.id)}>
           <div className="container__text">
             <div
-              className="dragable"
+              className={task.isDragable ? "dragable" : "not-dragable"}
               {...attributes}
               {...listeners}
               ref={setNodeRef}
@@ -89,6 +87,23 @@ const Todo: React.FC<TodoProps> = ({
             <h1>{task.title}</h1>
             <h2>{task.about}</h2>
           </div>
+          {task.isFavorite ? (
+            <BsBookmarkStarFill
+              className="star-icon"
+              onClick={(event) => {
+                event.stopPropagation();
+                toggleFavorite(task.id);
+              }}
+            />
+          ) : (
+            <BsBookmarkStar
+              className="star-icon"
+              onClick={(event) => {
+                event.stopPropagation();
+                toggleFavorite(task.id);
+              }}
+            />
+          )}
           <button
             onClick={(event) => {
               event.stopPropagation();

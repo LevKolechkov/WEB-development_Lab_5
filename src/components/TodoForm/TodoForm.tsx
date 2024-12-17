@@ -2,14 +2,8 @@ import { useState, FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { addTask } from "../../redux/slices/tasksSlice";
+import { Task } from "../interfaces/Task";
 import "./TodoForm.scss";
-
-interface Task {
-  title: string;
-  about: string;
-  id: string;
-  isMenuOpened: boolean;
-}
 
 const TodoForm: React.FC = () => {
   const [title, setTitle] = useState<string>("");
@@ -25,7 +19,9 @@ const TodoForm: React.FC = () => {
         title,
         about,
         id: uuidv4(),
+        isFavorite: false,
         isMenuOpened: false,
+        isDragable: true,
       };
 
       dispatch(addTask(task));

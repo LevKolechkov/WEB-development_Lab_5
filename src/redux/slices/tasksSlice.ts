@@ -1,12 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { arrayMove } from "@dnd-kit/sortable";
-
-interface Task {
-  id: string;
-  title: string;
-  about: string;
-  isMenuOpened: boolean;
-}
+import { Task } from "../../components/interfaces/Task";
 
 const storedTasks: Task[] = JSON.parse(localStorage.getItem("tasks") || "[]");
 storedTasks.forEach((task) => (task.isMenuOpened = false));
@@ -50,6 +44,33 @@ const tasksSlice = createSlice({
           ? { ...task, isMenuOpened: !task.isMenuOpened }
           : { ...task, isMenuOpened: false }
       );
+      localStorage.setItem("tasks", JSON.stringify(newState));
+      return newState;
+    },
+    toggleFavorite: (state, action: PayloadAction<string>) => {
+      const newState = state.map((task) =>
+        task.id === action.payload
+          ? {
+              ...task,
+              isFavorite: true,
+              isDragable: false,
+            }
+          : { ...task }
+      );
+      localStorage.setItem("tasks", JSON.stringify(newState));
+      return newState;
+    },
+    unToggleFavorite: (state, action: PayloadAction<string>) => {
+      const newState = state.map((task) =>
+        task.id === action.payload
+          ? {
+              ...task,
+              isFavorite: false,
+              isDragable: true,
+            }
+          : { ...task }
+      );
+      localStorage.setItem("tasks", JSON.stringify(newState));
       return newState;
     },
     loadTasks: () => {
@@ -81,6 +102,8 @@ export const {
   deleteTask,
   editTask,
   toggleTask,
+  toggleFavorite,
+  unToggleFavorite,
   loadTasks,
   moveTask,
 } = tasksSlice.actions;
