@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 import { addTask } from "../../redux/slices/tasksSlice";
 import "./TodoForm.scss";
 
-// Определяем интерфейс для задачи
 interface Task {
   title: string;
   about: string;

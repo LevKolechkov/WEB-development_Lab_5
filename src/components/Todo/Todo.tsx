@@ -7,7 +7,7 @@ import Share from "../Share/Share";
 import shareIcon from "../../assets/images/menu/share.svg";
 import infoIcon from "../../assets/images/menu/info.svg";
 import editIcon from "../../assets/images/menu/edit.svg";
-import "./TodoList.scss";
+import "../Todos/TodoList.scss";
 
 interface Task {
   id: string;

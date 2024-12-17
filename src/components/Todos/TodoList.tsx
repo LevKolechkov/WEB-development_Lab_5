@@ -4,7 +4,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { DndContext, closestCorners } from "@dnd-kit/core";
-import Todo from "./Todo";
+import Todo from "../Todo/Todo";
 import NoTasks from "../NoTasks/NoTasks";
 import {
   selectTasks,
@@ -18,19 +18,19 @@ function TodoList() {
   const tasks = useSelector(selectTasks);
   const dispatch = useDispatch();
 
-  const handleDeleteTask = (id) => {
+  const handleDeleteTask = (id: string) => {
     dispatch(deleteTask(id));
   };
 
-  const toggleTaskHandler = (id) => {
+  const toggleTaskHandler = (id: string) => {
     dispatch(toggleTask(id));
   };
 
-  const updateTaskHandler = (id, changedTask) => {
+  const updateTaskHandler = (id: string, changedTask: any) => {
     dispatch(editTask({ id, changedTask }));
   };
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd = (event: any) => {
     dispatch(moveTask(event));
   };
 
