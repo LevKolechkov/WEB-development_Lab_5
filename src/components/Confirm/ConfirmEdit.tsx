@@ -30,7 +30,7 @@ const ConfirmEdit: React.FC<ConfirmEditProps> = ({
   if (!show) return null;
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setEditedTask((prev) => ({ ...prev, [name]: value }));

@@ -24,7 +24,7 @@ const tasksSlice = createSlice({
       action: PayloadAction<{
         id: string;
         changedTask: { title: string; about: string };
-      }>
+      }>,
     ) => {
       const newState = state.map((task) =>
         task.id === action.payload.id
@@ -33,7 +33,7 @@ const tasksSlice = createSlice({
               title: action.payload.changedTask.title,
               about: action.payload.changedTask.about,
             }
-          : task
+          : task,
       );
       localStorage.setItem("tasks", JSON.stringify(newState));
       return newState;
@@ -42,7 +42,7 @@ const tasksSlice = createSlice({
       const newState = state.map((task) =>
         task.id === action.payload
           ? { ...task, isMenuOpened: !task.isMenuOpened }
-          : { ...task, isMenuOpened: false }
+          : { ...task, isMenuOpened: false },
       );
       localStorage.setItem("tasks", JSON.stringify(newState));
       return newState;
@@ -55,7 +55,7 @@ const tasksSlice = createSlice({
               isFavorite: true,
               isDragable: false,
             }
-          : { ...task }
+          : { ...task },
       );
       localStorage.setItem("tasks", JSON.stringify(newState));
       return newState;
@@ -68,7 +68,7 @@ const tasksSlice = createSlice({
               isFavorite: false,
               isDragable: true,
             }
-          : { ...task }
+          : { ...task },
       );
       localStorage.setItem("tasks", JSON.stringify(newState));
       return newState;
@@ -80,7 +80,7 @@ const tasksSlice = createSlice({
     },
     moveTask: (
       state,
-      action: PayloadAction<{ active: { id: string }; over: { id: string } }>
+      action: PayloadAction<{ active: { id: string }; over: { id: string } }>,
     ) => {
       const { active, over } = action.payload;
 
